@@ -113,11 +113,24 @@ def build_container(name, color):
         padding=15,
     )
 
-def build_button(name, color):
-    return ft.ElevatedButton(
-        name,
-        bgcolor=color,
-    )
+def build_button(name, color, callback=None):
+
+    if callback is None:
+        button = ft.ElevatedButton(
+            name,
+            bgcolor=color,
+        )
+    else:
+        button = ft.ElevatedButton(
+            name,
+            bgcolor=color,
+            on_click=callback
+        )
+        
+
+    return button
+
+
 
 def app(page: ft.Page):
     (p1CARD, p2CARD, river) = playerhand()
