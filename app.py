@@ -133,11 +133,19 @@ def build_button(name, color, callbac=None):
 def app(page: ft.Page):
     (p1CARD, p2CARD, river) = playerhand()
 
-    r1 = build_container(river[0], ft.colors.BLUE)
-    r2 = build_container(river[1], ft.colors.BLUE)
-    r3 = build_container(river[2], ft.colors.BLUE)
-    r4 = build_container(river[3], ft.colors.BLUE)
-    r5 = build_container(river[4], ft.colors.BLUE)
+    #r1 = build_container(river[0, ft.colors.BLUE)
+    #r2 = build_container(river[1], ft.colors.BLUE)
+    #r3 = build_container(river[2], ft.colors.BLUE)
+    #r4 = build_container(river[3], ft.colors.BLUE)
+    #r5 = build_container(river[4], ft.colors.BLUE)
+
+    count_text = ft.TextField(value="0")
+
+    r1 = build_container("", ft.colors.BLUE)
+    r2 = build_container("", ft.colors.BLUE)
+    r3 = build_container("", ft.colors.BLUE)
+    r4 = build_container("", ft.colors.BLUE)
+    r5 = build_container("", ft.colors.BLUE)
 
     p1 = build_container(p1CARD[0], ft.colors.BLUE)
     p2 = build_container(p1CARD[1], ft.colors.BLUE)
@@ -169,7 +177,18 @@ def app(page: ft.Page):
         bank1.content.value = str(sum5)
         page.update()
 
+
+
+    def tally():
+        
+
+
+
     def p2BET_BUTTON(e):
+
+        count = int(count_text.value) + 1
+        count_text.value = str(count)
+
         sum1 = int(p2BET.value)
         sum2 = int(pot.content.value)
         sum3 = sum1 + sum2
@@ -177,7 +196,18 @@ def app(page: ft.Page):
         sum4 = int(bank2.content.value)
         sum5 = sum4 - sum1
         bank2.content.value = str(sum5)
+        if count == 1:
+            r1.content.value = river[0]
+        if count == 2:
+            r2.content.value = river[1]
+        if count == 3:
+            r3.content.value = river[2]
+        if count == 4:
+            r4.content.value = river[3]
+            r5.content.value = river[4]
+ 
         page.update()
+        
 
     p1BET_BUTTON = build_button("BET", ft.colors.ORANGE, callbac=p1BET_BUTTON)
     p2BET_BUTTON = build_button("BET", ft.colors.ORANGE, callbac=p2BET_BUTTON)
