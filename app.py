@@ -4,58 +4,58 @@ import random
 
 cards = { 
 
-    1: 'Ace of Spades', 
-    2: '2 of Spades', 
-    3: '3 of Spades', 
-    4: '4 of Spades',
-    5: '5 of Spades', 
-    6: '6 of Spades',
-    7: '7 of Spades', 
-    8: '8 of Spades', 
-    9: '9 of Spades', 
-    10: '10 of Spades', 
-    11: 'Jack of Spades', 
-    12: 'Queen of Spades', 
-    13: 'King of Spades',
-    14: 'Ace of Hearts', 
-    15: '2 of Hearts', 
-    16: '3 of Hearts', 
-    17: '4 of Hearts', 
-    18: '5 of Hearts', 
-    19: '6 of Hearts', 
-    20: '7 of Hearts', 
-    21: '8 of Hearts',
-    22: '9 of Hearts', 
-    23: '10 of Hearts', 
-    24: 'Jack of Hearts', 
-    25: 'Queen of Hearts', 
-    26: 'King of Hearts',
-    27: 'Ace of Clubs',
-    28: '2 of Clubs',
-    29: '3 of Clubs',
-    30: '4 of Clubs',
-    31: '5 of Clubs',
-    32: '6 of Clubs',
-    33: '7 of Clubs',
-    34: '8 of Clubs',
-    35: '9 of Clubs',
-    36: '10 of Clubs',
-    37: 'Jack of Clubs',
-    38: 'Queen of Clubs',
-    39: 'King of Clubs',
-    40: 'Ace of Diamonds',
-    41: '2 of Diamonds',
-    42: '3 of Diamonds',
-    43: '4 of Diamonds',
-    44: '5 of Diamonds',
-    45: '6 of Diamonds',
-    46: '7 of Diamonds',
-    47: '8 of Diamonds',
-    48: '9 of Diamonds',
-    49: '10 of Diamonds',
-    50: 'Jack of Diamonds',
-    51: 'Queen of Diamonds',
-    52: 'King of Diamonds',
+    1: ['Ace of Spades',13],
+    2: ['2 of Spades', 1],
+    3: ['3 of Spades', 2],
+    4: ['4 of Spades', 3],
+    5: ['5 of Spades', 4],
+    6: ['6 of Spades', 5],
+    7: ['7 of Spades', 6],
+    8: ['8 of Spades', 7],
+    9: ['9 of Spades', 8],
+    10: ['10 of Spades', 9],
+    11: ['Jack of Spades', 10],
+    12: ['Queen of Spades', 11],
+    13: ['King of Spades', 12],
+    14: ['Ace of Hearts', 13],
+    15: ['2 of Hearts', 1],
+    16: ['3 of Hearts', 2],
+    17: ['4 of Hearts', 3],
+    18: ['5 of Hearts', 4],
+    19: ['6 of Hearts', 5],
+    20: ['7 of Hearts', 6],
+    21: ['8 of Hearts', 7],
+    22: ['9 of Hearts', 8],
+    23: ['10 of Hearts', 9],
+    24: ['Jack of Hearts', 10],
+    25: ['Queen of Hearts', 11],
+    26: ['King of Hearts', 12],
+    27: ['Ace of Clubs', 13],
+    28: ['2 of Clubs', 1],
+    29: ['3 of Clubs', 2],
+    30: ['4 of Clubs', 3],
+    31: ['5 of Clubs', 4],
+    32: ['6 of Clubs', 5],
+    33: ['7 of Clubs', 6],
+    34: ['8 of Clubs', 7],
+    35: ['9 of Clubs', 8],
+    36: ['10 of Clubs', 9],
+    37: ['Jack of Clubs', 10],
+    38: ['Queen of Clubs', 11],
+    39: ['King of Clubs', 12],
+    40: ['Ace of Diamonds', 13],
+    41: ['2 of Diamonds', 1],
+    42: ['3 of Diamonds', 2],
+    43: ['4 of Diamonds', 3],
+    44: ['5 of Diamonds', 4],
+    45: ['6 of Diamonds', 5],
+    46: ['7 of Diamonds', 6],
+    47: ['8 of Diamonds', 7],
+    48: ['9 of Diamonds', 8],
+    49: ['10 of Diamonds', 9],
+    50: ['Jack of Diamonds', 10],
+    51: ['Queen of Diamonds', 11],
+    52: ['King of Diamonds', 12],
 
 }
 
@@ -147,10 +147,10 @@ def app(page: ft.Page):
     r4 = build_container("", ft.colors.BLUE)
     r5 = build_container("", ft.colors.BLUE)
 
-    p1 = build_container(p1CARD[0], ft.colors.BLUE)
-    p2 = build_container(p1CARD[1], ft.colors.BLUE)
-    p3 = build_container(p2CARD[0], ft.colors.BLUE)
-    p4 = build_container(p2CARD[1], ft.colors.BLUE)
+    p1 = build_container(p1CARD[0][0], ft.colors.BLUE)
+    p2 = build_container(p1CARD[1][0], ft.colors.BLUE)
+    p3 = build_container(p2CARD[0][0], ft.colors.BLUE)
+    p4 = build_container(p2CARD[1][0], ft.colors.BLUE)
 
     pot = build_container("0", ft.colors.BLACK)
 
@@ -179,7 +179,6 @@ def app(page: ft.Page):
 
 
 
-    def tally():
         
 
 
@@ -197,14 +196,14 @@ def app(page: ft.Page):
         sum5 = sum4 - sum1
         bank2.content.value = str(sum5)
         if count == 1:
-            r1.content.value = river[0]
+            r1.content.value = river[0][0]
         if count == 2:
-            r2.content.value = river[1]
+            r2.content.value = river[1][0]
         if count == 3:
-            r3.content.value = river[2]
+            r3.content.value = river[2][0]
         if count == 4:
-            r4.content.value = river[3]
-            r5.content.value = river[4]
+            r4.content.value = river[3][0]
+            r5.content.value = river[4][0]
  
         page.update()
         
