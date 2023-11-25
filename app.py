@@ -164,6 +164,9 @@ def app(page: ft.Page):
         sum2 = int(pot.content.value)
         sum3 = sum1 + sum2
         pot.content.value = str(sum3)
+        sum4 = int(bank1.content.value)
+        sum5 = sum4 - sum1
+        bank1.content.value = str(sum5)
         page.update()
 
     def p2BET_BUTTON(e):
@@ -171,6 +174,9 @@ def app(page: ft.Page):
         sum2 = int(pot.content.value)
         sum3 = sum1 + sum2
         pot.content.value = str(sum3)
+        sum4 = int(bank2.content.value)
+        sum5 = sum4 - sum1
+        bank2.content.value = str(sum5)
         page.update()
 
     p1BET_BUTTON = build_button("BET", ft.colors.ORANGE, callbac=p1BET_BUTTON)
@@ -262,11 +268,6 @@ def app(page: ft.Page):
         )
     
     
-
-
-
-
-
     page.add(
 
         ft.FilledButton(
