@@ -70,7 +70,6 @@ for i in range(9):
     random_numbers.append(random_number)
 
 def playerhand():
-
     p1CARD = []
     p1CARD1 = random_numbers[0]
     p1CARD2 = random_numbers[1]
@@ -113,9 +112,8 @@ def build_container(name, color):
         padding=15,
     )
 
-def build_button(name, color, callback=None):
-
-    if callback is None:
+def build_button(name, color, callbac=None):
+    if callbac is None:
         button = ft.ElevatedButton(
             name,
             bgcolor=color,
@@ -124,11 +122,11 @@ def build_button(name, color, callback=None):
         button = ft.ElevatedButton(
             name,
             bgcolor=color,
-            on_click=callback
+            on_click=callbac
         )
-        
-
     return button
+
+    
 
 
 
@@ -146,7 +144,7 @@ def app(page: ft.Page):
     p3 = build_container(p2CARD[0], ft.colors.BLUE)
     p4 = build_container(p2CARD[1], ft.colors.BLUE)
 
-    pot = build_container("number", ft.colors.WHITE)
+    pot = build_container("0", ft.colors.BLACK)
 
     bank1 = build_container("100", ft.colors.GREEN)
     bank2 = build_container("100", ft.colors.GREEN)
@@ -161,6 +159,26 @@ def app(page: ft.Page):
     p2CALL = build_button("CALL", ft.colors.YELLOW)
 
 
+    def p1BET_BUTTON(e):
+        sum1 = int(p1BET.value)
+        sum2 = int(pot.content.value)
+        sum3 = sum1 + sum2
+        pot.content.value = str(sum3)
+        page.update()
+
+    def p2BET_BUTTON(e):
+        sum1 = int(p2BET.value)
+        sum2 = int(pot.content.value)
+        sum3 = sum1 + sum2
+        pot.content.value = str(sum3)
+        page.update()
+
+    p1BET_BUTTON = build_button("BET", ft.colors.ORANGE, callbac=p1BET_BUTTON)
+    p2BET_BUTTON = build_button("BET", ft.colors.ORANGE, callbac=p2BET_BUTTON)
+
+    
+
+
     pColumn1 = ft.Container(
                 content=ft.Column(
                     [
@@ -169,10 +187,7 @@ def app(page: ft.Page):
                         p1,
                         p2,
                         p1BET,
-                        ft.ElevatedButton(
-
-                            "BET"
-                        ),
+                        p1BET_BUTTON,
                         p1CALL,
                         p1FOLD,
                     ],
@@ -187,10 +202,7 @@ def app(page: ft.Page):
                         p3,
                         p4,
                         p2BET,
-                        ft.ElevatedButton(
-
-                            "BET"
-                        ),
+                        p2BET_BUTTON,
                         p2CALL,
                         p2FOLD,
                     ],
@@ -238,7 +250,7 @@ def app(page: ft.Page):
                 ),
             )
 
-    def btn_click(e):
+    def start_button(e):
         page.controls.pop()
         page.update()
         page.add(
@@ -249,12 +261,18 @@ def app(page: ft.Page):
             pColumns,
         )
     
+    
+
+
+
+
+
     page.add(
 
         ft.FilledButton(
 
             "play", 
-            on_click=btn_click,
+            on_click=start_button,
             style=ft.ButtonStyle(shape=ft.CircleBorder(), padding=30),
 
             ),
