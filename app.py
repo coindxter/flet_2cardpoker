@@ -167,7 +167,24 @@ def app(page: ft.Page):
     def highcard():
         p1MAX =  max(p1CARD[0][1], p1CARD[1][1])
         p2MAX =  max(p2CARD[0][1], p2CARD[1][1])
-        if p1MAX > p2MAX:
+        if p1MAX == p2MAX:
+            p1MIN = min(p1CARD[0][1], p1CARD[1][1])
+            p2MIN = min(p2CARD[0][1], p2CARD[1][1])
+            if p1MIN > p2MIN:
+                winner.content.value = "Player One Wins"
+                sum1 = int(pot.content.value)
+                sum2 = int(bank1.content.value)
+                sum3 = sum1 + sum2
+                bank1.content.value = str(sum3)
+                page.update()
+            else:
+                winner.content.value = "Player Two Wins"
+                sum1 = int(pot.content.value)
+                sum2 = int(bank2.content.value)
+                sum3 = sum1 + sum2
+                bank2.content.value = str(sum3)
+                page.update()
+        elif p1MAX > p2MAX:
             winner.content.value = "Player One Wins"
             sum1 = int(pot.content.value)
             sum2 = int(bank1.content.value)
