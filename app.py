@@ -61,12 +61,14 @@ cards = {
 
 random_numbers = []
 
-for i in range(9):
-    while True:
-        random_number = random.randint(1, 52)
-        if random_number not in random_numbers:
-            break
-    random_numbers.append(random_number)
+def handgenerator():
+
+    for i in range(9):
+        while True:
+            random_number = random.randint(1, 52)
+            if random_number not in random_numbers:
+                break
+        random_numbers.append(random_number)
 
 def playerhand():
     p1CARD = []
@@ -126,6 +128,9 @@ def build_button(name, color, callbac=None):
     return button
 
 def app(page: ft.Page):
+
+    handgenerator()
+
     (p1CARD, p2CARD, river) = playerhand()
 
     count_text = ft.TextField(value="0")
@@ -325,5 +330,8 @@ def app(page: ft.Page):
             style=ft.ButtonStyle(shape=ft.CircleBorder(), padding=30),
             ),
     )
+
+
+
 
 ft.app(target=app, view=ft.AppView.WEB_BROWSER)
