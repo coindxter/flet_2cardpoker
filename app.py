@@ -1,6 +1,6 @@
 import flet as ft
 import random
-
+import time
 
 cards = { 
 
@@ -60,7 +60,6 @@ cards = {
 }
 
 random_numbers = []
-
 
 for i in range(9):
     while True:
@@ -126,10 +125,6 @@ def build_button(name, color, callbac=None):
         )
     return button
 
-    
-
-
-
 def app(page: ft.Page):
     (p1CARD, p2CARD, river) = playerhand()
 
@@ -160,12 +155,10 @@ def app(page: ft.Page):
     p1BET = ft.TextField(label="Bet")
     p2BET = ft.TextField(label="Bet")
 
-    p1FOLD = build_button("FOLD", ft.colors.RED)
-    p2FOLD = build_button("FOLD", ft.colors.RED)
-
     p1CALL = build_button("CALL", ft.colors.YELLOW)
     p2CALL = build_button("CALL", ft.colors.YELLOW)
 
+    winner = build_container("", ft.colors.BLACK)
 
     def p1BET_BUTTON(e):
         sum1 = int(p1BET.value)
@@ -178,11 +171,26 @@ def app(page: ft.Page):
         page.update()
 
 
-
+    def highcard():
+        p1MAX =  max(p1CARD[0][1], p1CARD[1][1])
+        p2MAX =  max(p2CARD[0][1], p2CARD[1][1])
+        if p1MAX > p2MAX:
+            winner.content.value = "Player One Wins"
+            sum1 = int(pot.content.value)
+            sum2 = int(bank1.content.value)
+            sum3 = sum1 + sum2
+            bank1.content.value = str(sum3)
+            page.update()
+        else:
+            winner.content.value = "Player Two Wins"
+            sum1 = int(pot.content.value)
+            sum2 = int(bank2.content.value)
+            sum3 = sum1 + sum2
+            bank2.content.value = str(sum3)
+            page.update()
+            
+            
         
-
-
-
     def p2BET_BUTTON(e):
 
         count = int(count_text.value) + 1
@@ -204,16 +212,14 @@ def app(page: ft.Page):
         if count == 4:
             r4.content.value = river[3][0]
             r5.content.value = river[4][0]
+            highcard()
  
         page.update()
         
 
     p1BET_BUTTON = build_button("BET", ft.colors.ORANGE, callbac=p1BET_BUTTON)
     p2BET_BUTTON = build_button("BET", ft.colors.ORANGE, callbac=p2BET_BUTTON)
-
     
-
-
     pColumn1 = ft.Container(
                 content=ft.Column(
                     [
@@ -223,8 +229,8 @@ def app(page: ft.Page):
                         p2,
                         p1BET,
                         p1BET_BUTTON,
-                        p1CALL,
-                        p1FOLD,
+                        #p1CALL,
+                        #p1FOLD,
                     ],
                 ),
             )
@@ -238,8 +244,8 @@ def app(page: ft.Page):
                         p4,
                         p2BET,
                         p2BET_BUTTON,
-                        p2CALL,
-                        p2FOLD,
+                        #p2CALL,
+                        #p2FOLD,
                     ],
                 ),
             )
@@ -285,6 +291,16 @@ def app(page: ft.Page):
                 ),
             )
 
+    winnerROW = ft.Container(
+        content=ft.Row(
+            [
+                winner,
+            ],
+            alignment=ft.MainAxisAlignment.CENTER
+            ),
+        )
+
+
     def start_button(e):
         page.controls.pop()
         page.update()
@@ -294,8 +310,8 @@ def app(page: ft.Page):
             river2,
             riverPOT,
             pColumns,
+            winnerROW,
         )
-    
     
     page.add(
 
@@ -310,6 +326,5 @@ def app(page: ft.Page):
 
 
     )
-
 
 ft.app(target=app, view=ft.AppView.WEB_BROWSER)
