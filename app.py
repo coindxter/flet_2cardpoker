@@ -128,12 +128,6 @@ def build_button(name, color, callbac=None):
 def app(page: ft.Page):
     (p1CARD, p2CARD, river) = playerhand()
 
-    #r1 = build_container(river[0, ft.colors.BLUE)
-    #r2 = build_container(river[1], ft.colors.BLUE)
-    #r3 = build_container(river[2], ft.colors.BLUE)
-    #r4 = build_container(river[3], ft.colors.BLUE)
-    #r5 = build_container(river[4], ft.colors.BLUE)
-
     count_text = ft.TextField(value="0")
 
     r1 = build_container("", ft.colors.BLUE)
@@ -170,7 +164,6 @@ def app(page: ft.Page):
         bank1.content.value = str(sum5)
         page.update()
 
-
     def highcard():
         p1MAX =  max(p1CARD[0][1], p1CARD[1][1])
         p2MAX =  max(p2CARD[0][1], p2CARD[1][1])
@@ -188,9 +181,7 @@ def app(page: ft.Page):
             sum3 = sum1 + sum2
             bank2.content.value = str(sum3)
             page.update()
-            
-            
-        
+              
     def p2BET_BUTTON(e):
 
         count = int(count_text.value) + 1
@@ -216,7 +207,6 @@ def app(page: ft.Page):
  
         page.update()
         
-
     p1BET_BUTTON = build_button("BET", ft.colors.ORANGE, callbac=p1BET_BUTTON)
     p2BET_BUTTON = build_button("BET", ft.colors.ORANGE, callbac=p2BET_BUTTON)
     
@@ -299,7 +289,6 @@ def app(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER
             ),
         )
-
 
     def start_button(e):
         page.controls.pop()
