@@ -311,26 +311,19 @@ def app(page: ft.Page):
         page.controls.pop()
         page.update()
         page.add(
-
             river3,
             river2,
             riverPOT,
             pColumns,
             winnerROW,
         )
-    
+
     page.add(
-
         ft.FilledButton(
-
             "play", 
             on_click=start_button,
             style=ft.ButtonStyle(shape=ft.CircleBorder(), padding=30),
-
             ),
-
-
-
     )
 
 ft.app(target=app, view=ft.AppView.WEB_BROWSER)
