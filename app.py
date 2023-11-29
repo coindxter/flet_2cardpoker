@@ -87,6 +87,7 @@ def playerhand():
     cards.pop(p2CARD1)
     cards.pop(p2CARD2)
 
+    # Building the River
     river = []
     riverCARD1 = random_numbers[4]
     riverCARD2 = random_numbers[5]
@@ -124,7 +125,7 @@ def build_button(name, color, callbac=None):
             name,
             bgcolor=color,
             on_click=callbac
-        )
+        )    
     return button
 
 def app(page: ft.Page):
@@ -154,10 +155,28 @@ def app(page: ft.Page):
     p1BET = ft.TextField(label="Bet")
     p2BET = ft.TextField(label="Bet")
 
-    p1CALL = build_button("CALL", ft.colors.YELLOW)
-    p2CALL = build_button("CALL", ft.colors.YELLOW)
+    #p1CALL = build_button("CALL", ft.colors.YELLOW)
+    #p2CALL = build_button("CALL", ft.colors.YELLOW)
 
     winner = build_container("", ft.colors.BLACK)
+
+    def p1WIN():
+        winner.content.value = "Player One Wins"
+        sum1 = int(pot.content.value)
+        sum2 = int(bank1.content.value)
+        sum3 = sum1 + sum2
+        bank1.content.value = str(sum3)
+        pot.content.value = "0"
+        page.update()
+        
+    def p2WIN():
+        winner.content.value = "Player Two Wins"
+        sum1 = int(pot.content.value)
+        sum2 = int(bank2.content.value)
+        sum3 = sum1 + sum2
+        bank2.content.value = str(sum3)
+        pot.content.value = "0"
+        page.update()
 
     def p1BET_BUTTON(e):
         sum1 = int(p1BET.value)
@@ -176,34 +195,31 @@ def app(page: ft.Page):
             p1MIN = min(p1CARD[0][1], p1CARD[1][1])
             p2MIN = min(p2CARD[0][1], p2CARD[1][1])
             if p1MIN > p2MIN:
-                winner.content.value = "Player One Wins"
-                sum1 = int(pot.content.value)
-                sum2 = int(bank1.content.value)
-                sum3 = sum1 + sum2
-                bank1.content.value = str(sum3)
-                page.update()
+                print("player 1 highcard 1")
+                p1WIN()
             else:
-                winner.content.value = "Player Two Wins"
-                sum1 = int(pot.content.value)
-                sum2 = int(bank2.content.value)
-                sum3 = sum1 + sum2
-                bank2.content.value = str(sum3)
-                page.update()
+                print("player 2 highcard 2")
+                p2MIN()
         elif p1MAX > p2MAX:
-            winner.content.value = "Player One Wins"
-            sum1 = int(pot.content.value)
-            sum2 = int(bank1.content.value)
-            sum3 = sum1 + sum2
-            bank1.content.value = str(sum3)
-            page.update()
+            print("player 1 highcard 3")
+            p1WIN()
         else:
-            winner.content.value = "Player Two Wins"
-            sum1 = int(pot.content.value)
-            sum2 = int(bank2.content.value)
-            sum3 = sum1 + sum2
-            bank2.content.value = str(sum3)
-            page.update()
-              
+            print("player 2 highcard 4")
+            p2WIN()
+            
+    def pair():
+        for i in river:
+            if i[1] == p1CARD[0][1] or i[1] == p1CARD[1][1] or p1CARD[0][1] == p1CARD[1][1]:
+                print("p1Pair pair")
+                p1WIN()
+                return True
+            if i[1] == p2CARD[0][1] or  i[1] == p2CARD[1][1] or p2CARD[0][1] == p2CARD[1][1]:
+                print("p2Pair pair")
+                p2WIN()
+                return True
+        
+            
+
     def p2BET_BUTTON(e):
 
         count = int(count_text.value) + 1
@@ -225,7 +241,10 @@ def app(page: ft.Page):
         if count == 4:
             r4.content.value = river[3][0]
             r5.content.value = river[4][0]
-            highcard()
+            if not pair():
+                highcard()
+
+            
  
         page.update()
         
@@ -313,7 +332,7 @@ def app(page: ft.Page):
         )
 
     def start_button(e):
-        page.controls.pop()
+        #page.controls.pop()
         page.update()
         page.add(
             river3,
@@ -322,6 +341,66 @@ def app(page: ft.Page):
             pColumns,
             winnerROW,
         )
+    
+    def restart_button(e):
+        cards = { 
+
+            1: ['Ace of Spades',13, 1],
+            2: ['2 of Spades', 1, 1],
+            3: ['3 of Spades', 2, 1],
+            4: ['4 of Spades', 3, 1],
+            5: ['5 of Spades', 4, 1],
+            6: ['6 of Spades', 5, 1],
+            7: ['7 of Spades', 6, 1],
+            8: ['8 of Spades', 7, 1],
+            9: ['9 of Spades', 8, 1],
+            10: ['10 of Spades', 9, 1],
+            11: ['Jack of Spades', 10, 1],
+            12: ['Queen of Spades', 11, 1],
+            13: ['King of Spades', 12, 1],
+            14: ['Ace of Hearts', 13, 2],
+            15: ['2 of Hearts', 1, 2],
+            16: ['3 of Hearts', 2, 2],
+            17: ['4 of Hearts', 3, 2],
+            18: ['5 of Hearts', 4, 2],
+            19: ['6 of Hearts', 5, 2],
+            20: ['7 of Hearts', 6, 2],
+            21: ['8 of Hearts', 7, 2],
+            22: ['9 of Hearts', 8, 2],
+            23: ['10 of Hearts', 9, 2],
+            24: ['Jack of Hearts', 10, 2],
+            25: ['Queen of Hearts', 11, 2],
+            26: ['King of Hearts', 12, 2],
+            27: ['Ace of Clubs', 13, 3],
+            28: ['2 of Clubs', 1, 3],
+            29: ['3 of Clubs', 2, 3],
+            30: ['4 of Clubs', 3, 3],
+            31: ['5 of Clubs', 4, 3],
+            32: ['6 of Clubs', 5, 3],
+            33: ['7 of Clubs', 6, 3],
+            34: ['8 of Clubs', 7, 3],
+            35: ['9 of Clubs', 8, 3],
+            36: ['10 of Clubs', 9, 3],
+            37: ['Jack of Clubs', 10, 3],
+            38: ['Queen of Clubs', 11, 3],
+            39: ['King of Clubs', 12, 3],
+            40: ['Ace of Diamonds', 13, 4],
+            41: ['2 of Diamonds', 1, 4],
+            42: ['3 of Diamonds', 2, 4],
+            43: ['4 of Diamonds', 3, 4],
+            44: ['5 of Diamonds', 4, 4],
+            45: ['6 of Diamonds', 5, 4],
+            46: ['7 of Diamonds', 6, 4],
+            47: ['8 of Diamonds', 7, 4],
+            48: ['9 of Diamonds', 8, 4],
+            49: ['10 of Diamonds', 9, 4],
+            50: ['Jack of Diamonds', 10, 4],
+            51: ['Queen of Diamonds', 11, 4],
+            52: ['King of Diamonds', 12, 4],
+
+}
+        random_numbers = []
+        ft.app(target=app, view=ft.AppView.WEB_BROWSER)
 
     page.add(
         ft.FilledButton(
@@ -329,6 +408,13 @@ def app(page: ft.Page):
             on_click=start_button,
             style=ft.ButtonStyle(shape=ft.CircleBorder(), padding=30),
             ),
+        
+        ft.FilledButton(
+            "reset",
+            on_click=restart_button,
+            style=ft.ButtonStyle(shape=ft.CircleBorder(), padding=30),
+        )
+        
     )
 
 
