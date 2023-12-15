@@ -1,7 +1,6 @@
 import flet as ft
 import random
-import time
-
+from icecream import ic
 #[51,23,2,45,6,3,48,8,40]
 
 CARDS = { 
@@ -64,6 +63,8 @@ CARDS = {
  #function to set or reest containers
     
 river = []
+p1CARD = []
+p2CARD = []
 
 
 
@@ -80,7 +81,6 @@ def playerhand():
                 break
         random_numbers.append(random_number)
         
-    p1CARD = []
     p1CARD1 = random_numbers[0]
     p1CARD2 = random_numbers[1]
     p1CARD.append(cards[p1CARD1])
@@ -88,7 +88,6 @@ def playerhand():
     cards.pop(p1CARD1)
     cards.pop(p1CARD2)
 
-    p2CARD = []
     p2CARD1 = random_numbers[2]
     p2CARD2 = random_numbers[3]
     p2CARD.append(cards[p2CARD1])
@@ -113,7 +112,6 @@ def playerhand():
     cards.pop(riverCARD4)
     cards.pop(riverCARD5)
 
-    return p1CARD, p2CARD 
 
 #helper function to build containers
 def build_container(name, color):
@@ -141,7 +139,7 @@ def build_button(name, color, callbac=None):
 #main function
 def app(page: ft.Page):
 
-    (p1CARD, p2CARD) = playerhand()
+    playerhand()
 
 
     count_text = ft.TextField(value="0")
@@ -175,11 +173,6 @@ def app(page: ft.Page):
 
     winner = build_container("", ft.colors.BLACK)
 
-    p1MAX =  max(p1CARD[0][1], p1CARD[1][1])
-    p2MAX =  max(p2CARD[0][1], p2CARD[1][1])
-
-    p1MIN = min(p1CARD[0][1], p1CARD[1][1])
-    p2MIN = min(p2CARD[0][1], p2CARD[1][1])
 
     #function to add to pot to pp1bank, clear pot, and say player one wins
     def p1WIN():
@@ -202,55 +195,62 @@ def app(page: ft.Page):
         page.update()
 
     #function to check for highcard 
-    def highcard():
+    def highcard(p1pair, p2pair):
+        p1MAX =  max(p1CARD[0][1], p1CARD[1][1])
+        p2MAX =  max(p2CARD[0][1], p2CARD[1][1])
+        
+        ic(p1MAX)
+        ic(p2MAX)
+
+        p1MIN = min(p1CARD[0][1], p1CARD[1][1])
+        p2MIN = min(p2CARD[0][1], p2CARD[1][1])
+
+        ic(p1MIN)
+        ic(p2MIN)
+    
+
+    
         if p1MAX == p2MAX:
+            print("p1MAX == p2MAX:")
             if p1MIN > p2MIN:
+                print("p1MIN > p2MIN:")
                 print("player 1 highcard 1")
                 p1WIN()
             else:
+                print("p1MIN < p2MIN")
                 print("player 2 highcard 2")
                 p2WIN()
         elif p1MAX > p2MAX:
+            print("p1MAX > p2MAX")
             print("player 1 highcard 3")
             p1WIN()
         else:
+            print("p1MAX < p2MAX")
             print("player 2 highcard 4")
             p2WIN()
       
     #functions to check for pairs       
     def pair():
-
+        
         #function to check for p1pair
         def p1pair():
             for i in river:
                 if i[1] == p1CARD[0][1] or i[1] == p1CARD[1][1] or p1CARD[0][1] == p1CARD[1][1]:
-                    return True  
-                else:
-                    return False
+                    return i 
+            return None
 
         #function to check for p2pair    
         def p2pair():
             for i in river:
                 if i[1] == p2CARD[0][1] or  i[1] == p2CARD[1][1] or p2CARD[0][1] == p2CARD[1][1]:    
-                    return True 
-                else:
-                    return False
+                    return i 
+            return None
                 
         p1pair = p1pair()
         p2pair = p2pair()
         
-        if p1pair and p2pair:
-            return False
-        elif p1pair and not p2pair:
-            print("p1 pair")
-            p1WIN()
-            return True
-        elif not p1pair and p2pair:
-            print("p2 pair ")
-            p2WIN()
-            return True
-        else:
-            return False
+        
+        return p1pair, p2pair
            
     #function for when p1 bets
     def p1BET_BUTTON(e):
@@ -269,9 +269,6 @@ def app(page: ft.Page):
         count = int(count_text.value) + 1
         count_text.value = str(count)
 
-        print("p2Buttonn")
-        print(id(river))
-
         sum1 = int(p2BET.value)
         sum2 = int(pot.content.value)
         sum3 = sum1 + sum2
@@ -288,8 +285,22 @@ def app(page: ft.Page):
         if count == 4:
             r4.content.value = river[3][0]
             r5.content.value = river[4][0]
-            if not pair():
-                highcard()
+
+
+            (p1pair, p2pair) = pair() 
+            if p1pair and p2pair:
+                highcard(p1pair, p2pair)
+            elif p1pair and not p2pair:
+                print("p1 pair")
+                p1WIN()
+            elif not p1pair and p2pair:
+                print("p2 pair ")
+                p2WIN()
+            elif not p1pair and not p2pair:
+                print("no pair")
+                highcard(p1pair, p2pair)
+
+
         page.update()
         
     #p1 and p2 bet buttons
@@ -397,24 +408,10 @@ def app(page: ft.Page):
     
     #function to restart game
     def restart_button(e):
-        
-
-
-
-        #IMPORTANT FUNCTION RIGHT HERE
         river.clear()
-
-
-
-
-
-
-        (p1CARD, p2CARD) = playerhand()
-
-        print("comming from restartt")
-        print(id(river))
-    
-
+        p1CARD.clear()
+        p2CARD.clear()
+        playerhand()
         count_text.value = "0" 
         winner.content.value = ""
         r1.content.value = ""
@@ -425,13 +422,10 @@ def app(page: ft.Page):
         bank1.content.value = "100"
         bank2.content.value = "100"
         pot.content.value = "0"
-    
         p1.content.value = p1CARD[0][0]
         p2.content.value = p1CARD[1][0]
         p3.content.value = p2CARD[0][0]
         p4.content.value = p2CARD[1][0]
-
-
         page.update()
 
 
